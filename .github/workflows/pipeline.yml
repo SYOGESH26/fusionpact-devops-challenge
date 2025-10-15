@@ -20,7 +20,7 @@ jobs:
       - name: Build Docker image
         run: |
           IMAGE=ghcr.io/syogesh26/fusionfact:latest
-          docker build -t $IMAGE .
+          docker build -t $IMAGE ~/fusionpact-devops-challenge/backend
 
       - name: Login to GitHub Repo
         run: |
