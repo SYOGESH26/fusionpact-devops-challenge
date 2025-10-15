@@ -19,7 +19,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE=ghcr.io/${{ github.repository_owner }}/fusionfact:latest
+          IMAGE=ghcr.io/syogesh26/fusionfact:latest
           docker build -t $IMAGE .
 
       - name: Login to GitHub Repo
