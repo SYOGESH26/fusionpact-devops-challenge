@@ -120,6 +120,3 @@ PromQL Query Example (Memory usage % of container limit):
 
  <img width="1050" height="438" alt="image" src="https://github.com/user-attachments/assets/118e38c4-02fb-4c5c-b181-69b0c3067622" />
 
-
-Do you want me to do that?
-```
