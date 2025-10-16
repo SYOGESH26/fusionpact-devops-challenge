@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fusionfact
+  labels:
+    app: fusionfact
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fusionfact
+  templates:
+    metadata:
+      labels:
+        app: fusionfact
+  spec:
+    containers:
+      - name: FusionFact
+        image: ghcr.io/syogesh26/fusionfact:latest
+        ports:
+          - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /docs
+            port: 8000
+          initialDeploySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /docs
+            port: 8000
+          initialDeploySeconds: 15
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+
+
