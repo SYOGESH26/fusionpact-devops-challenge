@@ -1,140 +1,125 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Fusionpact-Org/assets/main/fusionpact-hero.gif" alt="Fusionpact Hero Banner" width="350"/>
-</p>
+# Fusionpact DevOps Gauntlet Challenge
 
-<h1 align="center">🌟 Fusionpact DevOps Gauntlet: Assessment 2026</h1>
+## About Me
+________________________________________
+I am **S. Yogesh**, a DevOps enthusiast skilled in Linux, Git, Docker, GitHub Actions, Kubernetes, and Ansible. I enjoy automating deployment processes and building reliable CI/CD pipelines.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Cloud--Ready-brightgreen?style=for-the-badge&logo=googles-cloud&logoColor=white" title="Project Status"/>
-  <img src="https://img.shields.io/badge/Container-Docker--Required-blue?style=for-the-badge&logo=docker&logoColor=white" title="Docker"/>
-  <img src="https://img.shields.io/badge/CI/CD-Automation--Focus-red?style=for-the-badge&logo=githubactions&logoColor=white" title="CI/CD"/>
-  <img src="https://img.shields.io/badge/Observability-Mandatory-yellowgreen?style=for-the-badge&logo=grafana&logoColor=white" title="Monitoring"/>
-</p>
+## Procedure I Follow
+________________________________________
 
----
+# Command 1: Fork and Clone Repository
+At first, I forked the repository from the given link.  
+Clone the repo using:
 
-<h2 align="center">🎯 MISSION BRIEFING: The Challenge</h2>
+git clone https://github.com/YogeshS/fusionpact-devops-challenge.git
 
-<p align="center">
-Welcome to the <b>Fusionpact DevOps Gauntlet</b>! This is your final opportunity to prove your mastery of modern cloud engineering.<br/>
-Your task is to take this two-tier application stack and transform it into a <b>fault-tolerant, observable, and automated production system</b> in the cloud.
-</p>
+<img width="775" height="446" alt="image" src="https://github.com/user-attachments/assets/7bcbc819-1de1-4e04-ab26-4c34c69487a9" />
 
----
 
-<h3 align="center">💻 Application Stack Overview</h3>
+# Command 2: Install Python Virtual Environment and Dependencies
 
-<p align="center">
 
-| Component | Technology | Directory | Key Feature |
-| :---: | :---: | :---: | :---: |
-| 🖼️ **Frontend** | HTML / CSS | `./frontend/` | Internship Landing Page (Requires lightweight serving) |
-| ⚡ **Backend** | Python **FastAPI** | `./backend/` | REST API, Data Handling, and **Prometheus `/metrics`** endpoint |
+pip install python3-venv
+pip install -r backend/requirements.txt
 
-</p>
+### Command 3: Check Locally using Uvicorn
 
----
+uvicorn app.main:app --host 0.0.0.0 --port 5000
 
-<h2 align="center">🧪 Challenge Structure</h2>
+I Access link: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-<p align="center">
-The assignment is divided into <b>3 levels</b>. Complete all tasks in each level to qualify.
-</p>
+# Dockerfile Creation and Image Build
+# Command 4: Create Dockerfile
 
----
 
-<h3 align="center">🥇 Level 1 – Cloud Deployment (30%)</h3>
+vi Dockerfile
 
-**Objective:** Deploy the full stack on a cloud platform of your choice.
+# Command 5: Build Docker Image
 
-**Requirements:**
-- Containerize both frontend and backend using Docker.
-- Create a `docker-compose.yml` to orchestrate the services.
-- Ensure data persistence (volume or external database).
-- Deploy the application on a public cloud (AWS, GCP, or Azure).
-- Both frontend and backend must be accessible publicly.
+docker build -t fusionfact .
+docker images   # Verify fusionfact is listed
+docker run -p 5000:5000 -d fusionfact
+curl 127.0.0.1:5000  # Verify running
 
-**Deliverables:**
-- `Dockerfile` for frontend and backend  
-- `docker-compose.yml`  
-- Screenshot of the deployed application *(Document this in your SOP)*
 
----
+# Command 6: Push Docker Image to GHCR
 
-<h3 align="center">🥈 Level 2 – Monitoring & Observability (30%)</h3>
+docker tag fusionfact ghcr.io/SYOGESH26/fusionfact
+docker push ghcr.io/SYOGESH26/fusionfact
 
-**Objective:** Implement complete observability for the deployed application.
+<img width="1050" height="307" alt="image" src="https://github.com/user-attachments/assets/83e168e3-6062-4be2-8844-7ce9e92e06f7" />
 
-**Requirements:**
-- Set up **Prometheus** to scrape backend metrics from `/metrics`.
-- Deploy **Grafana** and create dashboards for:
-  - Infrastructure metrics: CPU, memory, disk, container usage.
-  - Application metrics: request rate, latency, error counts.
-- Dashboards must visualize real-time data from the deployed services. *(Document this in your SOP)*
+# Command 7: Configure Kubernetes Manifests
 
-**Deliverables:**
-- `prometheus.yml` configuration file  
-- Screenshots of Grafana dashboards (Infrastructure + Application) *(in SOP)*
+vi Deployment.yml
+vi Service.yml
 
----
+Apply Manifests:
 
-<h3 align="center">🥉 Level 3 – CI/CD Automation (30%)</h3>
+kubectl apply -f Deployment.yml
+kubectl apply -f Service.yml
 
-**Objective:** Automate the build and deployment workflow.
+Verify Deployment:
 
-**Requirements:**
-- Implement a CI/CD pipeline using **Jenkins**, **GitHub Actions**, or **GitLab CI/CD**.
-- The pipeline must include:
-  - Code checkout  
-  - Build and test  
-  - Docker image build and push  
-  - Automatic deployment to the cloud
+kubectl get pods
 
-**Deliverables:**
-- CI/CD configuration file (`Jenkinsfile` or `.github/workflows/main.yml`)
+# Command 8: Monitoring Setup
 
----
+# Run cAdvisor
 
-<h3 align="center">📑 Submission Requirements (10%)</h3>
+docker run \
+  --name=cadvisor \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:ro \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --publish=8080:8080 \
+  --detach=true \
+  --restart=always \
+  gcr.io/cadvisor/cadvisor:latest
 
-**Instructions:**
-- Fork this repository and push your complete solution.
-- Provide a **SOP (Standard Operating Procedure)** — **do NOT** push the SOP to GitHub.  
-- Submit the SOP **via email**.
+Verify:
 
-**Submission Checklist:**
-- ✅ GitHub repository URL  
-- ✅ SOP PDF (attached in email)  
-- ✅ Submit the Google Form once the tasks are complete
+* Open browser: [http://localhost:8080](http://localhost:8080) → cAdvisor UI should appear
 
----
+# Configure Prometheus
 
-<h3 align="center">📊 Evaluation Criteria</h3>
+Create `prometheus.yml`:
 
-<p align="center">
+global:
+  scrape_interval: 15s
 
-| Category | Weight |
-| :---: | :---: |
-| ☁️ Cloud Deployment | 30% |
-| 📊 Monitoring & Observability | 30% |
-| 🔁 CI/CD Automation | 30% |
-| 📄 Documentation & SOP | 10% |
+scrape_configs:
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['localhost:8080']
 
-</p>
+PromQL Query Example (Memory usage % of container limit):
 
-<p align="center">
-  ⚠️ <b>FINAL CHECK:</b> Submissions will be rejected if the deployment is not in the cloud or if the SOP is missing.
-</p>
 
----
+(container_memory_usage_bytes{container!="POD"} / container_spec_memory_limit_bytes{container!="POD"}) * 100
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Fusionpact-Org/assets/main/devops-fun.gif" alt="DevOps Fun GIF" width="400"/>
-</p>
+* Open Prometheus UI → Graph tab → Enter query → Execute → view memory usage %
 
-<h3 align="center">🚀 SHOW US YOUR BEST WORK</h3>
+### Command 9: Visual Dashboard in Grafana
 
-<p align="center">
-Showcase <b>reliability, scalability, and automated cloud deployments</b> like a pro.  
-This is your chance to prove you can build real-world, production-ready systems.
-</p>
+1. Access Grafana Dashboard: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+2. Add Prometheus Data Source:
+
+   * Grafana → Settings → Data Sources → Add → Prometheus
+   * URL: `http://172.28.164.58:9090`
+   * Click **Save & Test**
+3. Import cAdvisor Dashboard:
+
+   * Enter Dashboard ID: `14282`
+   * Select Prometheus data source → Click Import
+4. Monitor Metrics:
+
+   * View container CPU, memory, network, and I/O metrics
+   * Real-time monitoring via cAdvisor
+
+ <img width="1050" height="438" alt="image" src="https://github.com/user-attachments/assets/118e38c4-02fb-4c5c-b181-69b0c3067622" />
+
+
+Do you want me to do that?
+```
